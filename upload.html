@@ -1,0 +1,26 @@
+
+<!DOCTYPE HTML>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>lava.homeServer</title>
+    </head>
+    <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <form method="post" enctype="multipart/form-data" action="">
+            <input type="button" id="btn" value="GO" />
+            <input type="file" id="file" name="file" />
+        </form>
+        <input type="text" id="fileName">
+    </body>
+    <script>
+        btn.addEventListener("click", function() {
+          var formData = new FormData();
+            let fName = fileName.value;
+            formData.append("myFile", document.getElementById("file").files[0], fName);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://192.168.1.24/edit");
+            xhr.send(formData);  
+        });
+    </script>
+</html>
