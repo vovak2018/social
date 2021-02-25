@@ -1,0 +1,156 @@
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <title>Главная</title>
+    <meta name="description" content="Описание страницы"/>
+    
+    <link rel="stylesheet" type="text/css" href="/style/style.css" />
+    <link rel="icon" href="/img/favicon.png">
+
+    <!-- Vue JS -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.15/dist/css/uikit.min.css" />
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.15/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.15/dist/js/uikit-icons.min.js"></script>
+    
+    <script src="/scripts/main_library.js"></script>
+</head>
+
+<div id="App">
+  <a class="uk-link-heading uk-height-1-4 flex" v-on:click="go_to_index">
+    <div class="user-card uk-background-secondary uk-width-1-6">
+      <div class="uk-card-header" style="margin: 0;padding: 0;">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+                <div class="uk-border-circle user-icon" style="background-image: url(/media/img/avatar.png);"></div>
+            </div>
+            <div class="uk-width-expand">
+                <h3 class="uk-card-title uk-margin-remove-bottom uk-text-muted">{{user_official_name}}</h3>
+                <p class="uk-text-meta uk-margin-remove-top"><time datetime="2018-04-01T19:00">@{{user_nick}}</time></p>
+            </div>
+        </div>
+    </div>
+    </div>
+		<header class="uk-background-secondary uk-width-5-6">
+			<h1 class="uk-heading-small uk-padding-large uk-text-muted uk-padding-small" style="text-decoration: none;padding: 4vh;" v-html="name">
+				{{name}}
+			</h1>
+		</header>
+    
+    </a>
+    <div class="flex uk-width-5-6">
+      <div class="uk-card uk-card-default uk-card-body uk-width-1-6@s uk-height-3-4">
+        <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
+          <li class="uk-active" onclick="go_to_main()"><a href="#"><span class="uk-margin-small-right" uk-icon="icon: home"></span> Моя страница</a></li>
+          <li class="uk-parent">
+            <a href="#"><span class="uk-margin-small-right" uk-icon="icon: mail"></span> Сообщения</a>
+            <ul class="uk-nav-sub" id="friends_to_messages">
+              <li><a href="#">user_name</a></li>
+            </ul>
+          </li>
+          <li class="uk-parent">
+            <a href="#"><span class="uk-margin-small-right" uk-icon="icon: users"></span> Пользователи</a>
+            <ul class="uk-nav-sub">
+              <li><a href="#"> Друзья</a></li>
+              <li><a href="#" id="search_friends_button"> Поиск друзей</a></li>
+            </ul>
+          </li>
+          <li class="uk-nav-divider"></li>
+          <li><a href="/"><span class="uk-margin-small-right" uk-icon="icon: sign-out"></span> Выйти</a></li>
+        </ul>
+      </div>
+      <div>
+        <div style="margin: 2vw;height: 93%;width: 83vw;transition: all 0.2s;border-radius: 10px;" class="uk-card-hover">
+          <div id="messages">
+            <div class="message">
+              lalala
+            </div>
+            <div class="message">
+              lalala, but not this
+            </div>
+          </div>
+          <div class="flex" id="imMessageBox"></div>
+            <input class="uk-input uk-form-blank" type="text" placeholder="Ваше сообщение..." id="imMessage" autofocus>
+            <div id="imButton" class="uk-button uk-button-primary view_anchor-num">Отправить</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <router-view>
+
+  </router-view>
+</div>
+<script src="/scripts/main_load.js"></script>
+<script>
+  token = get_url_var("token")
+  username = get_url_var("user")
+  check_token()
+  const Foo = { template: '<div>foo</div>' }
+  const Bar = { template: '<div>bar</div>' }
+  const routes = [
+      {
+        path: '/foo', 
+        component: Foo 
+      },
+      { 
+        path: '/bar', 
+        component: Bar 
+      }
+  ]
+  const router = new VueRouter({
+      routes
+  })
+  load_user_data()
+  log(user_array)
+  const app = new Vue({
+      router,
+      el: '#App',
+      data: {
+        header_html: get("/samples/header.smp"),
+        name: main_json.title,
+        user_icon_url: "/media/img/avatar.png",
+        user_official_name: user_array.off_name,
+        user_nick: username,
+        user_pwd: token
+      },
+      methods: {
+        go_to_index: function() {
+          location.href = "/?token=" + token + "&user=" + username +  "#/"
+        },
+        upd: function() {
+          let arr = `{"user_name": "${this.user_nick}","user_icon": "${this.user_icon_url}","off_name": "${this.user_official_name}"}`
+          get(`/edit?file=/users/${this.user_nick}/data.json&con=${arr};`)
+          get(`/edit?file=/users/${this.user_nick}/token.txt&con=${this.user_pwd};`)
+          if (document.getElementById("file").files.length > 0){
+            let alphabet = 'abcdefghijklmnopqrstuvwxyz',
+            word = '/media/img/';
+            for(let i = 0; i < 16; i++){
+                word += alphabet[Math.round(Math.random() * (alphabet.length - 1))];
+            }
+            word += ".png"
+            console.log(word);
+            var formData = new FormData();
+            fName = this.user_icon_url;
+            formData.append("myFile", document.getElementById("file").files[0], fName);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/edit");
+            xhr.send(formData);
+          }
+          else {
+            log("noAvatar")
+          }
+          location = `/?token=${this.user_pwd}&user=${this.user_nick}`
+        }
+      }
+  })
+  log(token)
+  UIkit.util.on('#search_friends_button', 'click', add_friend);
+</script>
+<script src="/scripts/friends_load.js"></script>
+</html>
