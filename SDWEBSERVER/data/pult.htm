@@ -1,0 +1,51 @@
+<html><head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>Smart-Room</title>
+	<link rel="stylesheet" href="style.css">
+<SCRIPT>
+	
+function sendbutton(Pin){
+server = "/Reley?state=" + Pin;
+request = new XMLHttpRequest();
+request.open("GET", server, true);
+request.send();
+
+}
+
+</SCRIPT>
+	
+	
+</head>
+<BODY >
+<h3 class="top">WIFI - РЕЛЕ - Пульт</h3>
+<div class="menu">
+	<a href='index.htm'>Главная</a>
+	<a href="pult.htm">Пульт</a>
+	<a href="setup.htm">Установки</a> 
+	<a href="help.htm">Помощь</a>
+	<a href='edit'>Загрузка файлов</a>
+	
+</div>
+
+<table class="details">
+<caption>Умная комната</caption>
+    <tr>
+        <td>
+            
+            <p align="center">Люстра<br>Реле1: <input type="submit" name="state" value="ON" onclick="sendbutton(0);"> 
+                <input type="submit" name="state" value="OFF" onclick="sendbutton(1);"></p>
+            
+            
+            <p align="center">Реле2: <input type="submit" name="state" value="ON" onclick="sendbutton(2);"> 
+                <input type="submit" name="state" value="OFF" onclick="sendbutton(3);"></p>
+               </td>
+    </tr>
+    <tr>
+        <td>
+            <p>&nbsp;</p>
+        </td>
+    </tr>
+</table>
+
+<div class="copyright">Сайт:  <a href="http://ESP8266-ArduinoIDE.ru" target="_blank">ESP8266-ArduinoIDE.ru</a></div>
+</body></html>
