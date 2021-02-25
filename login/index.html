@@ -1,0 +1,240 @@
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <title>Авторизация</title>
+    <meta name="description" content="Описание страницы"/>
+    
+    <link rel="stylesheet" type="text/css" href="/style/style.css" />
+    <link rel="icon" href="/img/favicon.png">
+
+    <!-- Vue JS -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.15/dist/css/uikit.min.css" />
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.15/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.15/dist/js/uikit-icons.min.js"></script>
+    
+    <script src="/scripts/main_library.js"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+</head>
+
+<div id="App">
+  <a class="uk-link-heading uk-height-1-4 flex" v-on:click="go_to_index">
+    <div class="user-card uk-background-secondary uk-width-1-6">
+      <div class="uk-card-header" style="margin: 0;padding: 0;">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+                <div class="uk-border-circle user-icon" style="background-image: url(/media/img/avatar.png);"></div>
+            </div>
+            <div class="uk-width-expand">
+                <h3 class="uk-card-title uk-margin-remove-bottom uk-text-muted">Авторизация</h3>
+                <p class="uk-text-meta uk-margin-remove-top"><time datetime="2018-04-01T19:00"></time></p>
+            </div>
+        </div>
+    </div>
+    </div>
+		<header class="uk-background-secondary uk-width-5-6">
+			<h1 class="uk-heading-small uk-padding-large uk-text-muted uk-padding-small" style="text-decoration: none;padding: 4vh;" v-html="name">
+				{{name}}
+			</h1>
+		</header>
+	</a>
+  <div class="flex uk-width-1-1">
+		<div class="uk-card uk-card-default uk-card-body uk-width-1-6@s uk-height-3-4">
+			<ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
+				<li class="uk-active"><a href="#"><span class="uk-margin-small-right" uk-icon="icon: home"></span> Страница авторизации</a></li>
+				<li class="uk-parent">
+					<a href="#"><span class="uk-margin-small-right" uk-icon="icon: mail"></span> Сообщения</a>
+					<ul class="uk-nav-sub" id="friends_to_messages">
+						<li><a href="#">Авторизуйтесь</a></li>
+					</ul>
+				</li>
+				<li class="uk-parent">
+					<a href="#"><span class="uk-margin-small-right" uk-icon="icon: users"></span> Пользователи</a>
+					<ul class="uk-nav-sub">
+						<li><a href="#">Авторизуйтесь</a></li>
+					</ul>
+				</li>
+				<li class="uk-nav-divider"></li>
+				<li><a href="/"><span class="uk-margin-small-right" uk-icon="icon: sign-out"></span> Выйти</a></li>
+			</ul>
+		</div>
+    <div class="uk-grid-match uk-child-width-1-3@m uk-width-5-6" uk-grid style="align-self: center;justify-content: center;">
+      <div class="uk-height-medium flexd transition uk-card-hover uk-text-light uk-text-muted" style="justify-content: flex-end;flex-wrap: wrap;text-align: right;padding: 10px;margin: 10px 10px;border-radius: 5px;align-items: flex-start;">
+        <h2 class="uk-heading-hero">Авторизация</h2>
+          <div class="uk-inline">
+            <span class="uk-form-icon" uk-icon="icon: user"></span>
+            <input class="uk-input uk-form-width-medium" style="width: 100%" type="text" placeholder="Логин*" id="logLogin">
+        </div>
+        <div class="uk-inline">
+          <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+          
+          <input class="uk-input uk-form-width-medium" type="password" style="width: 100%" placeholder="Пароль*" id="logPwd">
+      </div>
+          <button class="uk-button uk-button-primary" v-on:click="login">Войти</button>
+      </div>
+      <div class="uk-height-medium transition flexd uk-card-hover uk-text-light uk-text-muted" style="justify-content: flex-start;flex-wrap: wrap;text-align: left;padding: 10px;margin: 10px 10px;border-radius: 5px;align-items: flex-start;">
+        <h2 class="uk-heading-hero">Регистрация</h2>
+          <div class="flex">
+            <input class="uk-input uk-form-width-medium uk-width-1-2" type="text" placeholder="Имя" id="regOffName">
+              <!--input type="file" id="file" name="file" class="uk-width-1-2 uk-button"-->
+                <form method="post" enctype="multipart/form-data" action="">
+                  <input type="file" id="file" name="file" class="input input__file" onchange="fChange(this)">
+                </form>
+                <label for="file" class="uk-button uk-button-primary" style="width: 80%;margin-left: 10%;" id="upload_file_btn">
+                   загрузить аватар
+                </label>
+          </div>
+
+            <div class="uk-inline">
+                <span class="uk-form-icon" uk-icon="icon: user"></span>
+                <input class="uk-input uk-form-width-medium" style="width: 100%" type="text" placeholder="Логин*" id="regLogin">
+            </div>
+            <div class="uk-inline">
+              <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+              
+              <input class="uk-input uk-form-width-medium" type="password" style="width: 100%" placeholder="Пароль*" id="regPwd">
+          </div>
+          <button class="uk-button uk-button-primary" id="register" v-on:click="registration">Зарегистрироваться</button>
+      </div>
+    </div>
+  </div>
+  <router-view>
+
+  </router-view>
+</div>
+<div id="modal_name_error" class="uk-flex-top" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+      <button class="uk-modal-close-default" type="button" uk-close></button>
+      <p>Извините, но это имя уже занято, выберите другое.</p>
+  </div>
+</div>
+<script src="/scripts/main_load.js"></script>
+<script src="/scripts/login_drag_and_drop.js"></script>
+<script>
+  function fChange(input) {
+    let file = input.files[0];
+    if (["png", "jpg", "jpeg"].indexOf(file.name.split(".")[file.name.split(",").length].toLowerCase()) != -1) {
+      if ($("#upload_file_btn").hasClass("uk-button-primary")) $("#upload_file_btn").removeClass("uk-button-primary")
+      if ($("#upload_file_btn").hasClass("uk-button-danger")) $("#upload_file_btn").removeClass("uk-button-danger")
+      if (!($("#upload_file_btn").hasClass("uk-button-primary"))) $("#upload_file_btn").addClass("uk-button-success")
+    }
+    else {
+      if ($("#upload_file_btn").hasClass("uk-button-primary")) $("#upload_file_btn").removeClass("uk-button-primary")
+      if ($("#upload_file_btn").hasClass("uk-button-success")) $("#upload_file_btn").removeClass("uk-button-success")
+      if (!($("#upload_file_btn").hasClass("uk-button-primary"))) $("#upload_file_btn").addClass("uk-button-danger")
+      upload_file_btn.innerHTML = "Не картинка"
+    }
+     log(file.name.split(".")[file.name.split(",").length].toLowerCase())
+    //alert(`Last modified: ${file.lastModified}`); // например, 1552830408824
+  }
+  const Foo = { template: '<div>foo</div>' }
+  const Bar = { template: '<div>bar</div>' }
+  const routes = [
+      {
+        path: '/foo', 
+        component: Foo 
+      },
+      { 
+        path: '/bar', 
+        component: Bar 
+      }
+  ]
+  const router = new VueRouter({
+      routes
+  })
+  const app = new Vue({
+      router,
+      el: '#App',
+      data: {
+        header_html: get("/samples/header.smp"),
+        name: main_json.title,
+        user_icon_url: "/media/img/avatar.png"
+      },
+      methods: {
+        go_to_index: function() {
+          location.href = "/?token=" + token + "&user=" + username +  "#/"
+        },
+        registration: function() {
+          var login_to_register, fName, offname_to_register, pwd_to_register;
+          let regF = true
+          log(regLogin.value);
+          if (no_space(regLogin.value) == "") {
+            log("free login");
+            $("#regLogin").removeClass("uk-form-success");
+            $("#regLogin").addClass("uk-form-danger");
+            regF = false;
+          }
+          else {
+            log("ok login")
+            $("#regLogin").removeClass("uk-form-danger");
+            $("#regLogin").addClass("uk-form-success");
+            login_to_register = regLogin.value;
+          }
+          if (no_space(regPwd.value) == "") {
+            log("free Pwd");
+            $("#regPwd").removeClass("uk-form-success");
+            $("#regPwd").addClass("uk-form-danger");
+            regF = false;
+          }
+          else {
+            log("ok Pwd")
+            $("#regPwd").removeClass("uk-form-danger");
+            $("#regPwd").addClass("uk-form-success");
+            pwd_to_register = regPwd.value;
+          }
+          if (no_space(regOffName.value) == "") {
+            offname_to_register = regLogin.value;
+          }
+          else {
+            offname_to_register = regOffName.value;
+          }
+          log(get("/users.json").split(";").indexOf(regLogin.value))
+          if ((get("/users.json").split(";").indexOf(regLogin.value)) != -1) {
+            log("invalid usname")
+            UIkit.modal(modal_name_error).show();
+            $("#regLogin").removeClass("uk-form-success");
+            $("#regLogin").addClass("uk-form-danger");
+            regF = false
+          }
+          if (document.getElementById("file").files.length > 0){
+            let alphabet = 'abcdefghijklmnopqrstuvwxyz',
+            word = '/media/img/';
+            for(let i = 0; i < 16; i++){
+                word += alphabet[Math.round(Math.random() * (alphabet.length - 1))];
+            }
+            word += ".png"
+            console.log(word);
+            var formData = new FormData();
+            fName = '/media/img/' + login_to_register + ".png";
+            formData.append("myFile", document.getElementById("file").files[0], fName);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/edit");
+            xhr.send(formData);
+          }
+          else {
+            log("noAvatar")
+          }
+          if (regF) {
+            regJson = `{"user_name": "${login_to_register}","user_icon": "${fName}","off_name": "${offname_to_register}"}`
+            log(regJson)
+            get(`/edit?file=users.json&con=${get("/users.json")};${login_to_register}`)
+            get(`/edit?file=/users/${login_to_register}/data.json&con=${regJson};`)
+            get(`/edit?file=/users/${login_to_register}/friends.json&con=[]`)
+            get(`/edit?file=/users/${login_to_register}/token.txt&con=${pwd_to_register}`)
+            location = `http://${location.host}?token=${pwd_to_register}&user=${login_to_register}`;
+          }
+        },
+        login: function() {
+          location = `http://${location.host}?token=${logPwd.value}&user=${logLogin.value}`;
+        }
+      }
+  })
+</script>
+</html>
